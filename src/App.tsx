@@ -176,7 +176,7 @@ function App() {
               </AuthRequiredRoute>
             } />
             
-            <Route path='/carrer-privacy-policy' element={<CareersPrivacyPolicy />} />
+            <Route path='/career-privacy-policy' element={<CareersPrivacyPolicy />} />
             <Route path="/career/*" element={<Career />} />
             <Route path='/privacy-policy' element={<PrivacyPolicy />} />
 
@@ -238,7 +238,7 @@ function App() {
               }
             >
               {/* 'index' is used instead of path="/" */}
-              <Route path="index" element={<HushhUserProfilePage />} />
+              <Route index element={<HushhUserProfilePage />} />
               <Route path="view" element={<ViewPreferencesPage />} />
               <Route path="privacy" element={<PrivacyControlsPage />} />
             </Route>
