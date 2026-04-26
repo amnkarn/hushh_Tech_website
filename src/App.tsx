@@ -180,7 +180,7 @@ function App() {
             <Route path="/career/*" element={<Career />} />
             <Route path='/privacy-policy' element={<PrivacyPolicy />} />
 
-            <Route path="/community">
+            <Route path="/community" element={<Outlet />} >
               <Route index element={<CommunityPage />} />
 
               <Route path="*" element={<CommunityPostPage />} />
