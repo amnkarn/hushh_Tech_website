@@ -194,11 +194,8 @@ function App() {
               </AuthRequiredRoute>
             } />
            
-            <Route path="/reports/:id" element={
-
-              <ReportDetailPage />
-
-            } />
+            <Route path="/reports/:id" element={<ReportDetailPage />} />
+            
             <Route path="/auth/callback" element={<AuthCallback />} />
             {/* Investor Onboarding Guide - Public landing page */}
             <Route path="/investor-guide" element={<InvestorGuidePage />} />
@@ -321,7 +318,7 @@ function App() {
             <Route path='/metrics' element={<MetricsPage />} />
             <Route path='/metric' element={<Navigate to='/metrics' replace />} />
 
-            <Route path="/hushh-ai">
+            <Route path="/hushh-ai" element={<Outlet />}>
               <Route index element={<HushhAIPage />} />
 
               <Route path="login" element={<HushhAILoginPage />} />
