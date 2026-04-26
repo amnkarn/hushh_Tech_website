@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HomePage from './pages/home/ui';
 import Leadership from './components/Leadership';
@@ -175,13 +175,17 @@ function App() {
                 <Profile />
               </AuthRequiredRoute>
             } />
-            <Route path="/career" element={<Career />} />
+            
+            <Route path='/carrer-privacy-policy' element={<CareersPrivacyPolicy />} />
             <Route path="/career/*" element={<Career />} />
             <Route path='/privacy-policy' element={<PrivacyPolicy />} />
-            <Route path='/carrer-privacy-policy' element={<CareersPrivacyPolicy />} />
-            <Route path="/community" element={
-              <CommunityPage />
-            } />
+
+            <Route path="/community">
+              <Route index element={<CommunityPage />} />
+
+              <Route path="*" element={<CommunityPostPage />} />
+            </Route>
+            
             <Route path='/california-privacy-policy' element={<CaliforniaPrivacyPolicy />} />
             <Route path='/eu-uk-jobs-privacy-policy' element={<EUUKPrivacyPolicy />} />
             <Route path='/delete-account' element={
@@ -189,9 +193,7 @@ function App() {
                 <DeleteAccountPage />
               </AuthRequiredRoute>
             } />
-            <Route path="/community/*" element={
-              <CommunityPostPage />
-            } />
+           
             <Route path="/reports/:id" element={
 
               <ReportDetailPage />
@@ -200,94 +202,54 @@ function App() {
             <Route path="/auth/callback" element={<AuthCallback />} />
             {/* Investor Onboarding Guide - Public landing page */}
             <Route path="/investor-guide" element={<InvestorGuidePage />} />
+
+
             {/* Financial Link — mandatory pre-step before onboarding */}
-            <Route path="/onboarding/financial-link" element={
-              <ProtectedRoute>
-                <FinancialLinkPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/onboarding/step-1" element={
-              <ProtectedRoute>
-                <OnboardingStep1 />
-              </ProtectedRoute>
-            } />
-            <Route path="/onboarding/step-2" element={
-              <ProtectedRoute>
-                <OnboardingStep2 />
-              </ProtectedRoute>
-            } />
-            <Route path="/onboarding/step-3" element={
-              <ProtectedRoute>
-                <OnboardingStep3 />
-              </ProtectedRoute>
-            } />
-            <Route path="/onboarding/step-4" element={
-              <ProtectedRoute>
-                <OnboardingStep4 />
-              </ProtectedRoute>
-            } />
-            <Route path="/onboarding/step-5" element={
-              <ProtectedRoute>
-                <OnboardingStep5 />
-              </ProtectedRoute>
-            } />
-            <Route path="/onboarding/step-6" element={
-              <ProtectedRoute>
-                <OnboardingStep6 />
-              </ProtectedRoute>
-            } />
-            <Route path="/onboarding/step-7" element={
-              <ProtectedRoute>
-                <OnboardingStep7 />
-              </ProtectedRoute>
-            } />
-            <Route path="/onboarding/step-8" element={
-              <ProtectedRoute>
-                <OnboardingReviewStep />
-              </ProtectedRoute>
-            } />
-            <Route path="/onboarding/step-9" element={
-              <ProtectedRoute>
-                <OnboardingBankDetailsStep />
-              </ProtectedRoute>
-            } />
-            <Route path="/onboarding/verify" element={
-              <ProtectedRoute>
-                <VerifyIdentityPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/onboarding/verify-complete" element={
-              <ProtectedRoute>
-                <VerifyCompletePage />
-              </ProtectedRoute>
-            } />
-            <Route path="/onboarding/meet-ceo" element={
-              <ProtectedRoute>
-                <MeetCeoPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/hushh-user-profile" element={
-              <ProtectedRoute>
-                <HushhUserProfilePage />
-              </ProtectedRoute>
-            } />
-            <Route path="/hushh-user-profile/view" element={
-              <ProtectedRoute>
-                <ViewPreferencesPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/hushh-user-profile/privacy" element={
-              <ProtectedRoute>
-                <PrivacyControlsPage />
-              </ProtectedRoute>
-            } />
+            <Route path="/onboarding"
+              element={
+                <ProtectedRoute>
+                  {/*render child routes*/}
+                  <Outlet />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="financial-link" element={<FinancialLinkPage />} />
+              <Route path="step-1" element={<OnboardingStep1 />} />
+              <Route path="step-2" element={<OnboardingStep2 />} />
+              <Route path="step-3" element={<OnboardingStep3 />} />
+              <Route path="step-4" element={<OnboardingStep4 />} />
+              <Route path="step-5" element={<OnboardingStep5 />} />
+              <Route path="step-6" element={<OnboardingStep6 />} />
+              <Route path="step-7" element={<OnboardingStep7 />} />
+              <Route path="step-8" element={<OnboardingReviewStep />} />
+              <Route path="step-9" element={<OnboardingBankDetailsStep />} />
+              
+              <Route path="verify" element={<VerifyIdentityPage />} />
+              <Route path="verify-complete" element={<VerifyCompletePage />} />
+              <Route path="meet-ceo" element={<MeetCeoPage />} />
+            </Route>
+
+
+            <Route path="/hushh-user-profile"
+              element={
+                <ProtectedRoute>
+                  <Outlet />
+                </ProtectedRoute>
+              }
+            >
+              {/* 'index' is used instead of path="/" */}
+              <Route path="index" element={<HushhUserProfilePage />} />
+              <Route path="view" element={<ViewPreferencesPage />} />
+              <Route path="privacy" element={<PrivacyControlsPage />} />
+            </Route>
+
             <Route path="/profile/:id" element={
               <AuthRequiredRoute>
                 <ViewPreferencesPage />
               </AuthRequiredRoute>
             } />
-            <Route path="/hushhid/:id" element={<PublicHushhProfilePage />} />
             <Route path="/hushhid-hero-demo" element={<HushhIDHeroDemo />} />
+            <Route path="/hushhid/:id" element={<PublicHushhProfilePage />} />
             {/* <Route path="/solutions" element={<SolutionsPage />} /> */}
             <Route path='/kyc-verification' element={
 
@@ -358,9 +320,14 @@ function App() {
             <Route path='/developer-docs' element={<DeveloperDocsPage />} />
             <Route path='/metrics' element={<MetricsPage />} />
             <Route path='/metric' element={<Navigate to='/metrics' replace />} />
-            <Route path='/hushh-ai' element={<HushhAIPage />} />
-            <Route path='/hushh-ai/login' element={<HushhAILoginPage />} />
-            <Route path='/hushh-ai/signup' element={<HushhAISignupPage />} />
+
+            <Route path="/hushh-ai">
+              <Route index element={<HushhAIPage />} />
+
+              <Route path="login" element={<HushhAILoginPage />} />
+              <Route path="signup" element={<HushhAISignupPage />} />
+            </Route>
+
             {/* Kai - Financial Intelligence Agent */}
             {/* Real-time AI voice/video financial advisor powered by Gemini 2.0 Flash */}
             <Route path='/kai' element={<KaiApp />} />
